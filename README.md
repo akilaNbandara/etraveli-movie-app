@@ -22,13 +22,13 @@ Star Wars movie list application.
    The application will be available at `http://localhost:5173` (or the URL shown in the terminal).
 
 
-## Preview Production Build
+## API Information
 
-To preview the production build locally:
+**Note:** The original API was not working, so this application uses the Star Wars API from [swapi.info](https://swapi.info/) as an alternative data source.
 
-```bash
-npm run preview
-```
+
+
+
 
 
 

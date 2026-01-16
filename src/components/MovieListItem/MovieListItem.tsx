@@ -1,17 +1,18 @@
 import { ListItemButton, ListItemText } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import type { Movie } from '../../services/movies-api';
 import './MovieListItem.css';
 
 function MovieListItem({ movie }: { movie: Movie }) {
-	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleClick = () => {
-		navigate(`?episode_id=${movie.episode_id}`);
+		searchParams.set('episode_id', movie.episode_id.toString());
+		setSearchParams(searchParams);
 	};
 
 	return (
-		<ListItemButton onClick={handleClick}>
+		<ListItemButton onClick={handleClick} selected={searchParams.get('episode_id') === movie.episode_id.toString()}	>
 			<ListItemText
 				primary={movie.title}
 				secondary={

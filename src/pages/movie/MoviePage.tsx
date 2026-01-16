@@ -4,10 +4,13 @@ import { MovieDetails } from '../../components/MovieDetails'
 import { fetchMovies } from '../../services/movies-api'
 import { useQuery } from '@tanstack/react-query'
 import './MoviePage.css'
+import ListHeader from '../../components/ListHeader/ListHeader'
+import { useNavigate } from 'react-router-dom'
 
 function MoviePage() {
 	const [searchParams] = useSearchParams()
 	const episodeId = searchParams.get('episode_id')
+	const navigate = useNavigate();
 
 	const { data: movies } = useQuery({
 		queryKey: ['movies'],
@@ -18,7 +21,8 @@ function MoviePage() {
 
 	return (
 		<>
-			<h1>Star Wars Movies</h1>
+			<h1 onClick={() => navigate('/')}>Star Wars Movies</h1>
+			<ListHeader />
 			<div className='movie-layout'>
 				<div className='movie-list'>
 					<MovieList />

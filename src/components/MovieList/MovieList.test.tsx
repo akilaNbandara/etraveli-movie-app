@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import MovieList from './MovieList';
 import { useQuery } from '@tanstack/react-query';
 import type { Movie } from '../../services/movies-api';
@@ -33,6 +34,10 @@ describe('MovieList Component', () => {
 		},
 	];
 
+	const renderWithRouter = (component: React.ReactElement) => {
+		return render(<MemoryRouter>{component}</MemoryRouter>);
+	};
+
 	it('should display loading state', () => {
 		(useQuery as jest.Mock).mockReturnValue({
 			data: undefined,
@@ -40,20 +45,19 @@ describe('MovieList Component', () => {
 			error: null,
 		});
 
-		render(<MovieList />);
+		renderWithRouter(<MovieList />);
 		expect(screen.getByText('Loading...')).toBeInTheDocument();
 	});
 
 	it('should display error state', () => {
-		const errorMessage = 'Failed to fetch movies';
 		(useQuery as jest.Mock).mockReturnValue({
 			data: undefined,
 			isPending: false,
-			error: new Error(errorMessage),
+			error: new globalThis.Error('Failed to fetch movies'),
 		});
 
-		render(<MovieList />);
-		expect(screen.getByText(errorMessage)).toBeInTheDocument();
+		renderWithRouter(<MovieList />);
+		expect(screen.getByText('Failed to fetch movies')).toBeInTheDocument();
 	});
 
 	it('should render all movies when data exists', () => {
@@ -63,8 +67,8 @@ describe('MovieList Component', () => {
 			error: null,
 		});
 
-		render(<MovieList />);
-		const listItems = screen.getAllByRole('link');
-		expect(listItems).toHaveLength(3);
+		renderWithRouter(<MovieList />);
+		const buttons = screen.getAllByRole('button');
+		expect(buttons).toHaveLength(3);
 	});
 });

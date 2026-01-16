@@ -3,16 +3,4 @@
 	width: 100%;
 }
 
-.movie-layout {
-	display: flex;
-	width: 100%;
-	height: calc(100% - 3.2em);
-}
-
-.movie-list {
-	width: 30%;
-}
-.movie-details {
-	width: 70%;
-}
 

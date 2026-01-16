@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import MovieListItem from './MovieListItem';
 import type { Movie } from '../../services/movies-api';
 
@@ -12,23 +13,17 @@ describe('MovieListItem Component', () => {
 		url: 'https://swapi.info/api/films/4',
 	};
 
-	it('should render all movie data', () => {
-		render(<MovieListItem movie={mockMovie} />);
-		const container = screen.getByRole('link')
-		expect(container).toBeInTheDocument();
-		expect(container?.textContent).toContain('A New Hope');
-		expect(container?.textContent).toContain('George Lucas');
-		expect(container?.textContent).toContain('1977');
-	});
+	const renderWithRouter = (component: React.ReactElement) => {
+		return render(<MemoryRouter>{component}</MemoryRouter>);
+	};
 
-	it('should be clickable and navigate', async () => {
-		render(<MovieListItem movie={mockMovie} />);
-		
-		const link = screen.getByRole('link');
-		expect(link).toBeInTheDocument();
-		
-		fireEvent.click(link);
-		expect(link).toHaveAttribute('href', '/movie?episode_id=4');
+	it('should render all movie data', () => {
+		renderWithRouter(<MovieListItem movie={mockMovie} />);
+		const button = screen.getByRole('button');
+		expect(button).toBeInTheDocument();
+		expect(button.textContent).toContain('A New Hope');
+		expect(button.textContent).toContain('George Lucas');
+		expect(button.textContent).toContain('1977');
 	});
 
 	it('should render with different movie data', () => {
@@ -41,13 +36,12 @@ describe('MovieListItem Component', () => {
 			url: 'https://swapi.info/api/films/5',
 		};
 
-		render(<MovieListItem movie={anotherMovie} />);
+		renderWithRouter(<MovieListItem movie={anotherMovie} />);
 		
-		expect(screen.getByText('The Empire Strikes Back')).toBeInTheDocument();
-		expect(screen.getByText((content) => content.includes('Irvin Kershner'))).toBeInTheDocument();
-		expect(screen.getByText((content) => content.includes('1980'))).toBeInTheDocument();
-		
-		const link = screen.getByRole('link');
-		expect(link).toHaveAttribute('href', '/movie?episode_id=5');
+		const button = screen.getByRole('button');
+		expect(button).toBeInTheDocument();
+		expect(button.textContent).toContain('The Empire Strikes Back');
+		expect(button.textContent).toContain('Irvin Kershner');
+		expect(button.textContent).toContain('1980');
 	});
 });

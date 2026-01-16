@@ -1,21 +1,20 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import { MovieList } from './components/MovieList'
+import MoviePage from './pages/movie/MoviePage'
 
 function App() {
 	const queryClient = new QueryClient()
 
-  return (
-    <QueryClientProvider client={queryClient}>
-			<h1>Star Wars Movies</h1>
-			<div className='movie-layout'>
-				<div className='movie-list'>
-					<MovieList />
-				</div>
-				<div className='movie-details'>Movie Details Comes Here</div>
-			</div>
-		</QueryClientProvider>
-  )
+	return (
+		<BrowserRouter>
+			<QueryClientProvider client={queryClient}>
+				<Routes>
+					<Route path="/" element={<MoviePage />} />
+				</Routes>
+			</QueryClientProvider>
+		</BrowserRouter>
+	)
 }
 
 export default App

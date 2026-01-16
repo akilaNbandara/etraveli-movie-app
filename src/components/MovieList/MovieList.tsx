@@ -17,7 +17,7 @@ function MovieList() {
 	}
 	if (data) {
 		return (
-			<ul className='movie-list'>
+			<ul>
 				{data.map((movie) => (
 					<MovieListItem movie={movie} key={movie.episode_id}/>
 				))}

@@ -1,10 +1,17 @@
 import { ListItemButton, ListItemText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import type { Movie } from '../../services/movies-api';
 import './MovieListItem.css';
 
 function MovieListItem({ movie }: { movie: Movie }) {
+	const navigate = useNavigate();
+
+	const handleClick = () => {
+		navigate(`?episode_id=${movie.episode_id}`);
+	};
+
 	return (
-		<ListItemButton component="a" href={`/movie?episode_id=${movie.episode_id}`}>
+		<ListItemButton onClick={handleClick}>
 			<ListItemText
 				primary={movie.title}
 				secondary={

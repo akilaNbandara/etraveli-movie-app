@@ -22,11 +22,13 @@ function MoviePage() {
   const visibleMovies = useVisibleMovies(movies || []);
 
   return (
-    <>
-      <h1 onClick={() => navigate('/')}>Star Wars Movies</h1>
-      <ListHeader />
+    <div className="movie-page">
+			<div className="movie-page-header">
+      	<h1 onClick={() => navigate('/')}>Star Wars Movies</h1>
+			</div>
       <div className="movie-layout">
         <div className="movie-list">
+		      <ListHeader />
           <MovieList {...{ movies: visibleMovies, isLoading, error }} />
         </div>
         <div className="movie-details">
@@ -39,7 +41,7 @@ function MoviePage() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

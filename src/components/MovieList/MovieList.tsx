@@ -16,7 +16,7 @@ function MovieList({ movies, isLoading, error }: MovieListProps) {
   }
   if (movies) {
     return (
-      <div>
+      <div className="movie-list-container">
         {movies?.map((movie) => (
           <MovieListItem movie={movie} key={movie.episode_id} />
         ))}

@@ -1,5 +1,6 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import type { Movie } from '../../domain/Movie';
+import './MovieDetails.css';
 
 interface MovieDetailsProps {
   movie: Movie;
@@ -7,55 +8,45 @@ interface MovieDetailsProps {
 
 function MovieDetails({ movie }: MovieDetailsProps) {
   return (
-    <Card sx={{ maxWidth: 800, mx: 'auto', mt: 4 }}>
-      <CardContent>
-        <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 2 }}>
-          {movie.title}
-        </Typography>
+    <Container className="movie-details-container">
+			<Typography variant="h3" gutterBottom sx={{ mb: 2 }}>
+				{movie.title}
+			</Typography>
 
-        <Box sx={{ mb: 3 }}>
-          <Typography
-            variant="h6"
-            component="p"
-            sx={{ fontWeight: 'bold', mb: 1 }}
-          >
-            Director:
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            {movie.director}
-          </Typography>
-        </Box>
+			<Box sx={{ mb: 2 }}>
+				<Typography
+					variant="body2"
+					sx={{lineHeight: 1.75, textAlign: "justify"}}
+				>
+					{movie.opening_crawl}
+				</Typography>
+			</Box>
 
-        <Box sx={{ mb: 3 }}>
-          <Typography
-            variant="h6"
-            component="p"
-            sx={{ fontWeight: 'bold', mb: 1 }}
-          >
-            Release Date:
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            {movie.release_date.toDateString()}
-          </Typography>
-        </Box>
-
-        <Box sx={{ mb: 2 }}>
-          <Typography
-            variant="h6"
-            component="p"
-            sx={{ fontWeight: 'bold', mb: 1 }}
-          >
-            Opening Crawl:
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ lineHeight: 1.8, whiteSpace: 'pre-wrap' }}
-          >
-            {movie.opening_crawl}
-          </Typography>
-        </Box>
-      </CardContent>
-    </Card>
+			<Box sx={{ mb: 2, display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+				<Box sx={{ mb: 1, columnGap: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+					<Typography
+						variant="overline"
+						sx={{ fontWeight: 'bold'}}
+					>
+						Release Date:
+					</Typography>
+					<Typography variant="overline">
+						{movie.release_date.toLocaleDateString()}
+					</Typography>
+				</Box>
+				<Box sx={{ mb: 1, columnGap: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+					<Typography
+						variant="overline"
+						sx={{ fontWeight: 'bold'}}
+					>
+						Director: 
+					</Typography>
+					<Typography variant="overline">
+						{movie.director}
+					</Typography>
+				</Box>
+			</Box>
+    </Container>
   );
 }
 

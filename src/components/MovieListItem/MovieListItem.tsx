@@ -17,11 +17,15 @@ function MovieListItem({ movie }: { movie: Movie }) {
       selected={searchParams.get('episode_id') === movie.episode_id.toString()}
     >
       <ListItemText
-        primary={movie.title}
+        primary={<strong>{movie.title}</strong>}
         secondary={
           <>
-            <strong>Director:</strong> {movie.director} <br />
-            <strong>Release Year:</strong> {movie.release_year}
+						<span>EPISODE {movie.episode_id}</span> <br />
+						<span>
+							<strong>Director:</strong> {movie.director}
+							{ ' | '}
+							<strong>Released:</strong> {movie.release_year}
+						</span>
           </>
         }
       />

@@ -21,6 +21,23 @@ Star Wars movie list application.
 3. **Open the application:**
    The application will be available at `http://localhost:5173` (or the URL shown in the terminal).
 
+## How to test
+
+This application use jest for unit testing.
+
+**Run tests:**
+   ```bash
+   npm test
+   ```
+## Architecture
+
+This application try to follow simple version of clean architecture. The layers divided as `component`, `state` and `domain`.
+
+The base is `domain` layer it has infrastructure and entity data of application data.
+
+The `state` layer has representation of current state of application data. 
+
+Finally on the to has `component` layer, which has the UI logics and styles.
 
 ## API Information
 

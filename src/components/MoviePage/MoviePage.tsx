@@ -1,46 +1,46 @@
-import { useSearchParams } from 'react-router-dom'
-import { MovieList } from '../MovieList'
-import { MovieDetails } from '../MovieDetails'
-import './MoviePage.css'
-import ListHeader from '../ListHeader/ListHeader'
-import { useNavigate } from 'react-router-dom'
-import { useMovieState } from '../../state'
-import { useEffect } from 'react'
-import { useVisibleMovies } from './useVisibleMovies'
+import { useSearchParams } from 'react-router-dom';
+import { MovieList } from '../MovieList';
+import { MovieDetails } from '../MovieDetails';
+import './MoviePage.css';
+import ListHeader from '../ListHeader/ListHeader';
+import { useNavigate } from 'react-router-dom';
+import { useMovieState } from '../../state';
+import { useEffect } from 'react';
+import { useVisibleMovies } from './useVisibleMovies';
 
 function MoviePage() {
-	const [searchParams] = useSearchParams()
-	const episodeId = searchParams.get('episode_id')
-	const navigate = useNavigate();
-	const { movies, isLoading, error, fetchMovies } = useMovieState();
+  const [searchParams] = useSearchParams();
+  const episodeId = searchParams.get('episode_id');
+  const navigate = useNavigate();
+  const { movies, isLoading, error, fetchMovies } = useMovieState();
 
-	useEffect(() => {
-		fetchMovies();
-	}, [fetchMovies]);
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
 
-	const selectedMovie = movies?.find(m => m.episode_id === Number(episodeId))
-	const visibleMovies = useVisibleMovies(movies || []);
+  const selectedMovie = movies?.find((m) => m.episode_id === Number(episodeId));
+  const visibleMovies = useVisibleMovies(movies || []);
 
-	return (
-		<>
-			<h1 onClick={() => navigate('/')}>Star Wars Movies</h1>
-			<ListHeader />
-			<div className='movie-layout'>
-				<div className='movie-list'>
-					<MovieList {...{movies: visibleMovies, isLoading, error}} />
-				</div>
-				<div className='movie-details'>
-					{!episodeId ? (
-						<p>Please select a movie to show details</p>
-					) : !selectedMovie ? (
-						<p>No available movie for given id</p>
-					) : (
-						<MovieDetails movie={selectedMovie} />
-					)}
-				</div>
-			</div>
-		</>
-	)
+  return (
+    <>
+      <h1 onClick={() => navigate('/')}>Star Wars Movies</h1>
+      <ListHeader />
+      <div className="movie-layout">
+        <div className="movie-list">
+          <MovieList {...{ movies: visibleMovies, isLoading, error }} />
+        </div>
+        <div className="movie-details">
+          {!episodeId ? (
+            <p>Please select a movie to show details</p>
+          ) : !selectedMovie ? (
+            <p>No available movie for given id</p>
+          ) : (
+            <MovieDetails movie={selectedMovie} />
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default MoviePage
+export default MoviePage;

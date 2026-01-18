@@ -54,6 +54,10 @@ function ListHeader() {
         label: 'Year',
       },
       {
+        id: 'episode_id',
+        label: 'Episode',
+      },
+			{
         id: 'title',
         label: 'Title',
       },

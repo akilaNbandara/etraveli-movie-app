@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import MovieListItem from './MovieListItem';
-import type { Movie } from '../../services/movies-api';
+import type { Movie } from '../../domain/Movie';
 
 describe('MovieListItem Component', () => {
 	const mockMovie: Movie = {
 		episode_id: 4,
 		title: 'A New Hope',
 		director: 'George Lucas',
-		release_date: 1977,
+		release_date: new Date('1977-05-25'),
+		release_year: 1977,
 		opening_crawl: 'It is a period of civil war...',
-		url: 'https://swapi.info/api/films/4',
 	};
 
 	const renderWithRouter = (component: React.ReactElement) => {
@@ -31,9 +31,9 @@ describe('MovieListItem Component', () => {
 			episode_id: 5,
 			title: 'The Empire Strikes Back',
 			director: 'Irvin Kershner',
-			release_date: 1980,
-			opening_crawl: 'It is a dark time for the Rebellion...',
-			url: 'https://swapi.info/api/films/5',
+			release_date: new Date('1980-05-21'),
+			release_year: 1980,
+			opening_crawl: 'It is a dark time for the Rebellion...'
 		};
 
 		renderWithRouter(<MovieListItem movie={anotherMovie} />);

@@ -1,51 +1,65 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import MoviePage from './MoviePage'
-import type { Movie } from '../../services/movies-api'
+import type { Movie } from '../../domain/Movie'
 
 // Mock the child components to simplify testing
-jest.mock('../../components/MovieList', () => ({
-	MovieList: () => <div data-testid="movie-list">Movie List</div>,
-}))
+jest.mock('../../components/MovieList', () => {
+	return {
+		__esModule: true,
+		MovieList: () => <div data-testid="movie-list">Movie List</div>,
+	}
+})
 
-jest.mock('../../components/MovieDetails', () => ({
-	MovieDetails: ({ movie }: { movie: Movie }) => (
-		<div data-testid="movie-details">{movie.title}</div>
-	),
-}))
+jest.mock('../../components/MovieDetails', () => {
+	return {
+		__esModule: true,
+		MovieDetails: ({ movie }: { movie: Movie }) => (
+			<div data-testid="movie-details">{movie.title}</div>
+		),
+	}
+})
 
-// Mock the API call to return predictable data
-jest.mock('../../services/movies-api', () => ({
-	fetchMovies: jest.fn(() =>
-		Promise.resolve([
+jest.mock('../../components/ListHeader/ListHeader', () => {
+	return {
+		__esModule: true,
+		default: () => <div data-testid="list-header">List Header</div>,
+	}
+})
+
+// Mock useMovieState hook
+jest.mock('../../state', () => ({
+	useMovieState: () => ({
+		movies: [
 			{
 				episode_id: 4,
 				title: 'A New Hope',
 				director: 'George Lucas',
-				release_date: 1977,
+				release_date: new Date('1977-05-25'),
+				release_year: 1977,
 				opening_crawl: 'It is a period of civil war...',
-				url: 'https://swapi.info/api/films/4',
 			},
-		])
-	),
+		],
+		isLoading: false,
+		error: null,
+		fetchMovies: jest.fn(),
+	}),
+}))
+
+// Mock the API call to return predictable data
+jest.mock('../../domain/movie-repository', () => ({
+	default: {
+		fetchMovies: jest.fn(),
+	},
 }))
 
 describe('MoviePage Component - Three States', () => {
 	const renderMoviePage = async (initialRoute = '/') => {
-		const queryClient = new QueryClient({
-			defaultOptions: {
-				queries: { retry: false },
-			},
-		})
-
 		render(
 			<MemoryRouter initialEntries={[initialRoute]}>
-				<QueryClientProvider client={queryClient}>
 					<Routes>
 						<Route path="/" element={<MoviePage />} />
 					</Routes>
-				</QueryClientProvider>
 			</MemoryRouter>
 		)
 

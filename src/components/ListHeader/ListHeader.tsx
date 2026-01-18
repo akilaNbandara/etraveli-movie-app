@@ -1,45 +1,43 @@
 import { Stack, TextField, Select, MenuItem, ToggleButtonGroup, ToggleButton, InputLabel, FormControl, type SelectChangeEvent } from "@mui/material";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { useSearchParams } from 'react-router-dom';
 import './ListHeader.css';
+import { useMovieState } from "../../state";
+import type { SortOptions, SortOrder } from "../../state/MoviesStore";
+import { useCallback, useMemo } from "react";
+interface SortOption {
+	id: SortOptions;
+	label: string;
+}
 
 function ListHeader() {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const sortByValue = searchParams.get('sort_by') || '';
-	const order = sortByValue && (searchParams.get('sort_order') || 'asc');
-	const searchStr = searchParams.get('search_str');
+	const  {filter, setFilter, sortBy, setSortBy, sortOrder, setSortOrder} = useMovieState();
 
-	const handleSortBy = (event: SelectChangeEvent<string>) => {
+	const handleSortBy = useCallback((event: SelectChangeEvent<SortOptions>) => {
 		const value = event.target.value;
-		searchParams.set('sort_by', value);
-		setSearchParams(searchParams);
-	}
+		setSortBy(value);
+	}, [setSortBy]);
 
-	const handleOrderChange = (_: React.MouseEvent<HTMLElement>, newOrder: string) => {
-		if (newOrder) {
-			searchParams.set('sort_order', newOrder);
-			setSearchParams(searchParams);
-		} else {
-			searchParams.delete('sort_order');
-			setSearchParams(searchParams);
-		}
-	};
+	const handleOrderChange = useCallback((_: React.MouseEvent<HTMLElement>, newOrder: SortOrder) => {
+		if (newOrder) setSortOrder(newOrder);
+	}, [setSortOrder]);
 
-	const handlerSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handlerSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
-		if (value) {
-			searchParams.set('search_str', value);
-			setSearchParams(searchParams);
-		} else {
-			searchParams.delete('search_str');
-			setSearchParams(searchParams);
-		}
-	}
+		setFilter(value || '');
+	}, [setFilter]);
+
+	const sortOptions: SortOption[] = useMemo(() => [{
+		id: 'release_year',
+		label: 'Year'
+	}, {
+		id: 'title',
+		label: 'Title'
+	}], []);
 
 	return (
 			<Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems="center">
-					<TextField value={searchStr} size="small" id="search-box" label="Find your movie" variant="outlined" onChange={handlerSearchChange} />
+					<TextField value={filter} size="small" id="search-box" label="Find your movie" onChange={handlerSearchChange} />
 					<FormControl size="small">
 						<InputLabel id="sort-label">Sort By</InputLabel>
 						<Select
@@ -48,14 +46,15 @@ function ListHeader() {
 							id="sort-by-select"
 							label="Sort By"
 							size="small"
-							value={sortByValue}
+							value={sortBy}
 							onChange={handleSortBy}
 						>
-							<MenuItem value="episode_id">Episode</MenuItem>
-							<MenuItem value="year">Year</MenuItem>
+							{sortOptions.map(option => (
+								<MenuItem key={option.id} value={option.id}>{option.label}</MenuItem>
+							))}
 						</Select>
 					</FormControl>
-					<ToggleButtonGroup value={order} size="small" exclusive onChange={handleOrderChange}>
+					<ToggleButtonGroup value={sortOrder} size="small" exclusive onChange={handleOrderChange}>
 						<ToggleButton value="asc"><ArrowUpwardIcon /></ToggleButton>
 						<ToggleButton value="desc"><ArrowDownwardIcon /></ToggleButton>
 					</ToggleButtonGroup>

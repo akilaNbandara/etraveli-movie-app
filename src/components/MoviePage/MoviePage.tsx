@@ -1,23 +1,25 @@
 import { useSearchParams } from 'react-router-dom'
-import { MovieList } from '../../components/MovieList'
-import { MovieDetails } from '../../components/MovieDetails'
-import { fetchMovies } from '../../services/movies-api'
-import { useQuery } from '@tanstack/react-query'
+import { MovieList } from '../MovieList'
+import { MovieDetails } from '../MovieDetails'
 import './MoviePage.css'
-import ListHeader from '../../components/ListHeader/ListHeader'
+import ListHeader from '../ListHeader/ListHeader'
 import { useNavigate } from 'react-router-dom'
+import { useMovieState } from '../../state'
+import { useEffect } from 'react'
+import { useVisibleMovies } from './useVisibleMovies'
 
 function MoviePage() {
 	const [searchParams] = useSearchParams()
 	const episodeId = searchParams.get('episode_id')
 	const navigate = useNavigate();
+	const { movies, isLoading, error, fetchMovies } = useMovieState();
 
-	const { data: movies } = useQuery({
-		queryKey: ['movies'],
-		queryFn: fetchMovies,
-	})
+	useEffect(() => {
+		fetchMovies();
+	}, [fetchMovies]);
 
 	const selectedMovie = movies?.find(m => m.episode_id === Number(episodeId))
+	const visibleMovies = useVisibleMovies(movies || []);
 
 	return (
 		<>
@@ -25,7 +27,7 @@ function MoviePage() {
 			<ListHeader />
 			<div className='movie-layout'>
 				<div className='movie-list'>
-					<MovieList />
+					<MovieList {...{movies: visibleMovies, isLoading, error}} />
 				</div>
 				<div className='movie-details'>
 					{!episodeId ? (

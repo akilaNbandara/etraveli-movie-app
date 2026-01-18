@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import MovieDetails from './MovieDetails'
-import type { Movie } from '../../services/movies-api'
+import type { Movie } from '../../domain/Movie'
 
 describe('MovieDetails Component', () => {
 	const mockMovie: Movie = {
 		episode_id: 4,
 		title: 'A New Hope',
 		director: 'George Lucas',
-		release_date: 1977,
+		release_date: new Date('1977-05-25'),
+		release_year: 1977,
 		opening_crawl: 'It is a period of civil war.\nRebel spaceships, striking\nfrom a hidden base, have won\ntheir first victory against\nthe evil Galactic Empire.',
-		url: 'https://swapi.info/api/films/4/',
 	}
 
 	it('should display all movie details together', () => {

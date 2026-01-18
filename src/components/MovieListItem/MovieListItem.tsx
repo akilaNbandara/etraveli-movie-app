@@ -1,6 +1,6 @@
 import { ListItemButton, ListItemText } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
-import type { Movie } from '../../services/movies-api';
+import type { Movie } from '../../domain/Movie';
 import './MovieListItem.css';
 
 function MovieListItem({ movie }: { movie: Movie }) {
@@ -18,7 +18,7 @@ function MovieListItem({ movie }: { movie: Movie }) {
 				secondary={
 					<>
 						<strong>Director:</strong> {movie.director} <br />
-						<strong>Release Date:</strong> {movie.release_date}
+						<strong>Release Year:</strong> {movie.release_year}
 					</>
 				}
 			/>

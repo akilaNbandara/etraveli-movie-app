@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Box } from '@mui/material';
-import type { Movie } from '../../services/movies-api';
+import type { Movie } from '../../domain/Movie';
 
 interface MovieDetailsProps {
 	movie: Movie;
@@ -27,7 +27,7 @@ function MovieDetails({ movie }: MovieDetailsProps) {
 						Release Date:
 					</Typography>
 					<Typography variant="body1" sx={{ mb: 2 }}>
-						{movie.release_date}
+						{movie.release_date.toDateString()}
 					</Typography>
 				</Box>
 

@@ -84,13 +84,23 @@ export const movieRepository: MovieRepository = {
       console.warn('OMDb API key not configured');
       return normalizeMovieAdditional(movie.episode_id);
     }
-    const response = await fetch(
-      `http://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
-    );
-    if (!response.ok) {
+
+    try {
+      const response = await fetch(
+        `http://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
+      );
+      
+      if (!response.ok) {
+        console.error(`OMDb API returned status: ${response.status}`);
+        return normalizeMovieAdditional(movie.episode_id);
+      }
+      
+      const movieData: ResponseMovieAdditional = await response.json();
+      return normalizeMovieAdditional(movie.episode_id, movieData);
+    } catch (error) {
+      console.error('Error fetching additional movie data:', error);
+      // Always return normalized object, never throw
       return normalizeMovieAdditional(movie.episode_id);
     }
-    const movieData: ResponseMovieAdditional = await response.json();
-    return normalizeMovieAdditional(movie.episode_id, movieData);
   },
 };

@@ -1,6 +1,6 @@
 # Etraveli Movie Application
 
-Star Wars movie list application.
+Star Wars movie list application. Access the application on this URL[https://akilanbandara.github.io/etraveli-movie-app/].
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Star Wars movie list application.
    ```
 
 3. **Open the application:**
-   The application will be available at `http://localhost:5173` (or the URL shown in the terminal).
+   The application will be available at `http://localhost:5173/etraveli-movie-app` (or the URL shown in the terminal).
 
 ## How to test
 
@@ -31,6 +31,30 @@ This application use jest for unit testing.
 
 ```bash
 npm test
+```
+**Code quality:**
+
+In this project eslint and prettier use for maintain the code quality.
+
+To check lint issues.
+
+```bash
+npm run lint
+```
+
+To format code
+
+```bash
+npm run format
+```
+
+**Build and Deploy:**
+
+This application currently deployed on the github-pages. The `gh-pages` library use to deploy the application.
+To deploy, push all the changes, then run,
+
+```bash
+npm run deploy
 ```
 
 ## Architecture
@@ -45,4 +69,6 @@ Finally on the top, has the `component` layer, which has the UI logics and style
 
 ## API Information
 
-**Note:** The original API was not working, so this application uses the Star Wars API from [swapi.info](https://swapi.info/) as an alternative data source.
+**Note:** The original `swapi` API didn't work, so this application uses the Star Wars API from [swapi.info](https://swapi.info/) as an alternative data source.
+
+**Note:** The `omdb` API not working on the deployed version of gh-pages. Therefor, images and ratings data will not available.

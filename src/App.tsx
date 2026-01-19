@@ -8,7 +8,7 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/etraveli-movie-app">
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route

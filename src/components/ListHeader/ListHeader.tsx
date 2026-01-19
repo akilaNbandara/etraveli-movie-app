@@ -57,10 +57,10 @@ function ListHeader() {
         id: 'episode_id',
         label: 'Episode',
       },
-			{
-				id: 'title',
-				label: 'Title',
-			},
+      {
+        id: 'title',
+        label: 'Title',
+      },
     ],
     []
   );
@@ -68,10 +68,10 @@ function ListHeader() {
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
-			flexWrap="wrap"
+      flexWrap="wrap"
       gap={1}
       alignItems="center"
-			className="list-header"
+      className="list-header"
     >
       <TextField
         value={filter}

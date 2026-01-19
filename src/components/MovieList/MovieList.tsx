@@ -14,7 +14,12 @@ function MovieList({ movies, isLoading, error }: MovieListProps) {
     return <Loading message="Movies are loading..." />;
   }
   if (error) {
-    return <Error message="Something went wrong. Could not load movies." error={error} />;
+    return (
+      <Error
+        message="Something went wrong. Could not load movies."
+        error={error}
+      />
+    );
   }
   if (movies) {
     return (

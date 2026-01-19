@@ -20,12 +20,12 @@ function MovieListItem({ movie }: { movie: Movie }) {
         primary={<strong>{movie.title}</strong>}
         secondary={
           <>
-						<span>EPISODE {movie.episode_id}</span> <br />
-						<span>
-							<strong>Director:</strong> {movie.director}
-							{ ' | '}
-							<strong>Released:</strong> {movie.release_year}
-						</span>
+            <span>EPISODE {movie.episode_id}</span> <br />
+            <span>
+              <strong>Director:</strong> {movie.director}
+              {' | '}
+              <strong>Released:</strong> {movie.release_year}
+            </span>
           </>
         }
       />

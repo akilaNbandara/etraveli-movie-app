@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import MoviePage from './MoviePage';
 import type { Movie } from '../../domain/Movie';
@@ -7,15 +8,33 @@ import type { Movie } from '../../domain/Movie';
 jest.mock('../../components/MovieList', () => {
   return {
     __esModule: true,
-    MovieList: () => <div data-testid="movie-list">Movie List</div>,
+    default: () => <div data-testid="movie-list">Movie List</div>,
   };
 });
 
-jest.mock('../../components/MovieDetails', () => {
+jest.mock('../../components/MovieDetails/MovieDetails', () => {
   return {
     __esModule: true,
-    MovieDetails: ({ movie }: { movie: Movie }) => (
+    default: ({ movie }: { movie: Movie }) => (
       <div data-testid="movie-details">{movie.title}</div>
+    ),
+  };
+});
+
+jest.mock('../../components/Indicators/NotAvailable', () => {
+  return {
+    __esModule: true,
+    default: ({ message }: { message: string }) => (
+      <div data-testid="not-available">{message}</div>
+    ),
+  };
+});
+
+jest.mock('../../components/Indicators/Info', () => {
+  return {
+    __esModule: true,
+    default: ({ message }: { message: string }) => (
+      <div data-testid="info">{message}</div>
     ),
   };
 });
@@ -69,21 +88,27 @@ describe('MoviePage Component - Three States', () => {
 
   it('should show "Please select a movie to show details" when no episode_id is provided', async () => {
     await renderMoviePage('/');
-    expect(
-      screen.getByText('Please select a movie to show details')
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText('Please select a movie to show details')
+      ).toBeInTheDocument();
+    });
   });
 
   it('should show "No available movie for given id" when episode_id does not exist', async () => {
     await renderMoviePage('/?episode_id=999');
-    expect(
-      screen.getByText('No available movie for given id')
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText('No available movie for given id')
+      ).toBeInTheDocument();
+    });
   });
 
   it('should display MovieDetails when valid episode_id is provided', async () => {
     await renderMoviePage('/?episode_id=4');
-    expect(screen.getByTestId('movie-details')).toBeInTheDocument();
-    expect(screen.getByText('A New Hope')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('movie-details')).toBeInTheDocument();
+      expect(screen.getAllByText('A New Hope')).toHaveLength(2);
+    });
   });
 });

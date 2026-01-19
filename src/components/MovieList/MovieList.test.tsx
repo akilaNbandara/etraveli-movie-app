@@ -40,13 +40,7 @@ const mockMovies: Movie[] = [
 
 describe('MovieList Component', () => {
   it('should display loading text when loading', () => {
-    render(
-			<MovieList
-				movies={[]}
-				isLoading={true}
-				error={null}
-			/>
-		);
+    render(<MovieList movies={[]} isLoading={true} error={null} />);
     expect(screen.getByText('Movies are loading...')).toBeInTheDocument();
   });
 

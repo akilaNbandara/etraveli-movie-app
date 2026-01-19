@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import MovieList from './MovieList';
 import type { Movie } from '../../domain/Movie';
 
@@ -39,8 +40,14 @@ const mockMovies: Movie[] = [
 
 describe('MovieList Component', () => {
   it('should display loading text when loading', () => {
-    render(<MovieList movies={[]} isLoading={true} error={null} />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    render(
+			<MovieList
+				movies={[]}
+				isLoading={true}
+				error={null}
+			/>
+		);
+    expect(screen.getByText('Movies are loading...')).toBeInTheDocument();
   });
 
   it('should display error text when error occurs', () => {
@@ -51,7 +58,9 @@ describe('MovieList Component', () => {
         error={new Error('Failed to fetch')}
       />
     );
-    expect(screen.getByText('Failed to fetch')).toBeInTheDocument();
+    expect(
+      screen.getByText('Something went wrong. Could not load movies.')
+    ).toBeInTheDocument();
   });
 
   it('should render all movies when data is available', () => {

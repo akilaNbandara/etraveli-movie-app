@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMovieState } from '../../state';
 import { useEffect } from 'react';
 import { useVisibleMovies } from './useVisibleMovies';
+import NotAvailable from '../Indicators/NotAvailable';
+import Info from '../Indicators/Info';
 
 function MoviePage() {
   const [searchParams] = useSearchParams();
@@ -33,9 +35,9 @@ function MoviePage() {
         </div>
         <div className="movie-details">
           {!episodeId ? (
-            <p>Please select a movie to show details</p>
+            <Info message="Please select a movie to show details" />
           ) : !selectedMovie ? (
-            <p>No available movie for given id</p>
+            <NotAvailable message="No available movie for given id" />
           ) : (
             <MovieDetails movie={selectedMovie} />
           )}

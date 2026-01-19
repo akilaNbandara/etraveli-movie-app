@@ -41,7 +41,7 @@ The base is `domain` layer it has infrastructure and entity data of application 
 
 The `state` layer has representation of current state of application data.
 
-Finally on the to has `component` layer, which has the UI logics and styles.
+Finally on the top, has the `component` layer, which has the UI logics and styles.
 
 ## API Information
 

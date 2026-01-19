@@ -61,6 +61,10 @@ function ListHeader() {
         id: 'title',
         label: 'Title',
       },
+      {
+        id: 'average_rating_percent',
+        label: 'Rating',
+      },
     ],
     []
   );

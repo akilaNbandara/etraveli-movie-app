@@ -4,7 +4,6 @@
 }
 
 .movie-page-header {
-  background-color: #fffde9;
   border-bottom: 5px solid #ffe81f;
   padding: 0.5em 1em;
 
@@ -20,16 +19,23 @@
   height: calc(100% - 60px);
 }
 
-.movie-list {
-  border-right: 5px solid #ffe81f;
-  width: 40%;
-	min-width: 350px;
+.movie-list,
+.movie-details {
   max-height: 100%;
   overflow-y: auto;
+  margin: 0.5em;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: silver 0px 0px 5px 0px;
+}
+
+.movie-list {
+  width: 40%;
+  min-width: 350px;
 }
 
 .movie-details {
   width: 60%;
   max-height: 100%;
-  overflow-y: scroll;
+  margin-left: 0;
 }

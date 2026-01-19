@@ -1,4 +1,12 @@
-import { Container, Typography, Box, Chip, Rating, Card, CardMedia } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  Chip,
+  Rating,
+  Card,
+  CardMedia,
+} from '@mui/material';
 import type { MovieWithAdditionalData } from '../../domain/Movie';
 import './MovieDetails.css';
 import { useMemo } from 'react';
@@ -9,51 +17,56 @@ interface MovieDetailsProps {
 }
 
 function MovieDetails({ movie }: MovieDetailsProps) {
-	const ratingValue = useMemo(() => {
-		return movie.average_rating_percent ? movie.average_rating_percent / 10 : 0;
-	}, [movie]);
+  const ratingValue = useMemo(() => {
+    return movie.average_rating_percent ? movie.average_rating_percent / 10 : 0;
+  }, [movie]);
 
   return (
     <Container className="movie-details-container">
-      <Typography variant="h3" gutterBottom sx={{ mb: 2 }}>
-        {movie.title}
+      <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
+        EPISODE {movie.episode_id} - {movie.title}
       </Typography>
-
-      <Box 
-        sx={{ 
-          mb: 2, 
-          display: "grid", 
-          gridTemplateColumns: { 
+      <Box
+        sx={{
+          mb: 2,
+          display: 'grid',
+          gridTemplateColumns: {
             xs: '1fr',
             sm: '1fr',
-            md: '200px 1fr'
+            md: '200px 1fr',
           },
           gap: 2,
-          alignItems: 'start'
+          alignItems: 'start',
         }}
       >
-				<Card sx={{ width: '100%', maxWidth: 200 }}>
-					<CardMedia
-						component="img"
-						image={movie.poster_url || placeholderPoster}
-						alt={`${movie.title} Poster`}
-						onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-							e.currentTarget.src = placeholderPoster;
-						}}
-					/>
-				</Card>
+        <Card sx={{ width: '100%', maxWidth: 200 }}>
+          <CardMedia
+            component="img"
+            image={movie.poster_url || placeholderPoster}
+            alt={`${movie.title} Poster`}
+            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.src = placeholderPoster;
+            }}
+          />
+        </Card>
 
-				<Box>
-					<Typography
-						variant="body2"
-						sx={{ lineHeight: 1.75, textAlign: 'justify' }}
-					>
-						{movie.opening_crawl}
-					</Typography>
-				</Box>
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{ lineHeight: 1.75, textAlign: 'justify' }}
+          >
+            {movie.opening_crawl}
+          </Typography>
+        </Box>
       </Box>
 
-      <Box sx={{ mb: 2, display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr', md: '1fr 1fr' } }}>
+      <Box
+        sx={{
+          mb: 2,
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: '1fr', md: '1fr 1fr' },
+        }}
+      >
         <Box
           sx={{
             mb: 1,
@@ -86,38 +99,47 @@ function MovieDetails({ movie }: MovieDetailsProps) {
         </Box>
       </Box>
 
-			<Box>
-					{movie.ratings && movie.ratings.length > 0 ? (
-						<Box sx={{ mt: 1, mb: 1, display: 'flex', flexDirection: 'row', gap: 1, flexWrap: 'wrap' }}>
-							{movie.ratings.map((rating) => (
-								<Chip
-									key={rating.source}
-									color="primary"
-									variant="outlined"
-									label={<><strong>{rating.source}:</strong> {rating.value_string}</>}
-								/>
-							))}
-						</Box>
-					) : (
-						<Chip
-							color="primary"
-							variant="outlined"
-							label="No ratings available."
-						/>
-					)}
+      <Box>
+        {movie.ratings && movie.ratings.length > 0 ? (
+          <Box
+            sx={{
+              mt: 1,
+              mb: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 1,
+              flexWrap: 'wrap',
+            }}
+          >
+            {movie.ratings.map((rating) => (
+              <Chip
+                key={rating.source}
+                color="primary"
+                variant="outlined"
+                label={
+                  <>
+                    <strong>{rating.source}:</strong> {rating.value_string}
+                  </>
+                }
+              />
+            ))}
+          </Box>
+        ) : (
+          <Chip
+            color="primary"
+            variant="outlined"
+            label="No ratings available."
+          />
+        )}
 
-					<Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-						<Typography variant="overline" sx={{ fontWeight: 'bold' }}>
-							Average Rating:
-						</Typography>
+        <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+          <Typography variant="overline" sx={{ fontWeight: 'bold' }}>
+            Average Rating:
+          </Typography>
 
-						<Rating
-							value={ratingValue}
-							readOnly max={10}
-							precision={0.25}
-						/>
-					</Box>
-			</Box>
+          <Rating value={ratingValue} readOnly max={10} precision={0.25} />
+        </Box>
+      </Box>
     </Container>
   );
 }

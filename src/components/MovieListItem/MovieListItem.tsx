@@ -12,9 +12,9 @@ function MovieListItem({ movie }: { movie: MovieWithAdditionalData }) {
     setSearchParams(searchParams);
   };
 
-	const ratingValue = useMemo(() => {
-		return movie.average_rating_percent ? movie.average_rating_percent / 20 : 0;
-	}, [movie]);
+  const ratingValue = useMemo(() => {
+    return movie.average_rating_percent ? movie.average_rating_percent / 20 : 0;
+  }, [movie]);
 
   return (
     <ListItemButton
@@ -32,12 +32,13 @@ function MovieListItem({ movie }: { movie: MovieWithAdditionalData }) {
           </>
         }
       />
-			<Rating
-				value={ratingValue}
-				readOnly max={5}
-				precision={0.25}
-				size="small"
-			/>
+      <Rating
+        value={ratingValue}
+        readOnly
+        max={5}
+        precision={0.25}
+        size="small"
+      />
     </ListItemButton>
   );
 }

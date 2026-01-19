@@ -13,17 +13,20 @@ export function MovieProvider({ children }: { children: ReactNode }) {
   const [sortBy, setSortBy] = useState<SortOptions>('release_year');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
-	const onAdditionalDataFetched = useCallback(async (data: AdditionalMovieData[]) => {
-		const dataMap = new Map<number, AdditionalMovieData>();
-		data.forEach(d => dataMap.set(d.episode_id, d));
+  const onAdditionalDataFetched = useCallback(
+    async (data: AdditionalMovieData[]) => {
+      const dataMap = new Map<number, AdditionalMovieData>();
+      data.forEach((d) => dataMap.set(d.episode_id, d));
 
-		setMovies((prevMovies) => {
-			return prevMovies.map((movie) => {
-				const additionalData = dataMap.get(movie.episode_id);
-				return additionalData ? { ...movie, ...additionalData } : movie;
-			});
-		});
-	}, []);
+      setMovies((prevMovies) => {
+        return prevMovies.map((movie) => {
+          const additionalData = dataMap.get(movie.episode_id);
+          return additionalData ? { ...movie, ...additionalData } : movie;
+        });
+      });
+    },
+    []
+  );
 
   const fetchMovies = useCallback(async () => {
     setIsLoading(true);
@@ -32,8 +35,10 @@ export function MovieProvider({ children }: { children: ReactNode }) {
       const movies = await movieRepository.fetchMovies();
       setMovies(movies);
 
-			const additionalData = await Promise.all(movies.map(movieRepository.fetchAdditionalMovieData));
-			onAdditionalDataFetched(additionalData);
+      const additionalData = await Promise.all(
+        movies.map(movieRepository.fetchAdditionalMovieData)
+      );
+      onAdditionalDataFetched(additionalData);
     } catch (err) {
       setError(err as Error);
     } finally {

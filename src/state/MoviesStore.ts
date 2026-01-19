@@ -1,6 +1,10 @@
 import type { Movie } from '../domain/Movie';
 
-export type SortOptions = 'release_year' | 'episode_id' | 'title';
+export type SortOptions =
+  | 'release_year'
+  | 'episode_id'
+  | 'title'
+  | 'average_rating_percent';
 export type SortOrder = 'asc' | 'desc';
 
 export interface MoviesState {

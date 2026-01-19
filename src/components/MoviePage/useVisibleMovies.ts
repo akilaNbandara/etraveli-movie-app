@@ -1,8 +1,8 @@
-import type { Movie } from '../../domain/Movie';
+import type { MovieWithAdditionalData } from '../../domain/Movie';
 import { useMovieState } from '../../state';
 import { useMemo } from 'react';
 
-export function useVisibleMovies(movies: Movie[]) {
+export function useVisibleMovies(movies: MovieWithAdditionalData[]) {
   const { filter, sortBy, sortOrder } = useMovieState();
 
   const filteredData = useMemo(() => {
@@ -18,10 +18,19 @@ export function useVisibleMovies(movies: Movie[]) {
         if (!sortBy) return 0;
         const aValue = a[sortBy];
         const bValue = b[sortBy];
-
-        if (aValue < bValue) return sortOrder === 'desc' ? 1 : -1;
-        if (aValue > bValue) return sortOrder === 'desc' ? -1 : 1;
-        return 0;
+				
+				if (sortOrder === 'desc') {
+					if (!aValue) return 1;
+					if (!bValue) return -1;
+					if (aValue < bValue) return 1;
+					if (aValue > bValue) return -1;
+				} else {
+					if (!aValue) return -1;
+					if (!bValue) return 1;
+					if (aValue < bValue) return -1;
+					if (aValue > bValue) return 1;
+				}
+				return 0;
       }),
     [filteredData, sortBy, sortOrder]
   );

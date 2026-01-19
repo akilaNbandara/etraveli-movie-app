@@ -79,9 +79,13 @@ export const movieRepository: MovieRepository = {
   fetchAdditionalMovieData: async (
     movie: Movie
   ): Promise<AdditionalMovieData> => {
-    // TODO: Replace 'b9a5e69d' with your actual OMDb API key
+    const apiKey = import.meta.env.VITE_OMDB_API_KEY;
+    if (!apiKey) {
+      console.warn('OMDb API key not configured');
+      return normalizeMovieAdditional(movie.episode_id);
+    }
     const response = await fetch(
-      `http://www.omdbapi.com/?apikey=${'b9a5e69d'}&t=${movie.title}&y=${movie.release_year}`
+      `http://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
     );
     if (!response.ok) {
       return normalizeMovieAdditional(movie.episode_id);

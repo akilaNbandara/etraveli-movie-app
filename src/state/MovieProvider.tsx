@@ -4,6 +4,7 @@ import { MovieContext } from './context';
 import type { AdditionalMovieData, Movie } from '../domain/Movie';
 import type { SortOptions, SortOrder } from './MoviesStore';
 import { movieRepository } from '../domain/movie-repository';
+import { useStorageService } from './useStorageService';
 
 export function MovieProvider({ children }: { children: ReactNode }) {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -11,7 +12,9 @@ export function MovieProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<Error | null>(null);
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState<SortOptions>('release_year');
+	useStorageService('sortBy', sortBy, setSortBy);
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+	useStorageService('sortOrder', sortOrder, setSortOrder);
 
   const onAdditionalDataFetched = useCallback(
     async (data: AdditionalMovieData[]) => {

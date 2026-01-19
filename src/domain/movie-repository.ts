@@ -69,13 +69,13 @@ export const movieRepository: MovieRepository = {
     return movies.map(normalizeMovie);
   },
 
-	fetchAdditionalMovieData: async (episode_id: number, title: string): Promise<AdditionalMovieData> => {
+	fetchAdditionalMovieData: async (movie: Movie): Promise<AdditionalMovieData> => {
 		// TODO: Replace 'b9a5e69d' with your actual OMDb API key
-		const response = await fetch(`http://www.omdbapi.com/?apikey=${'b9a5e69d'}&t=${title}`);
+		const response = await fetch(`http://www.omdbapi.com/?apikey=${'b9a5e69d'}&t=${movie.title}&y=${movie.release_year}`);
 		if (!response.ok) {
-			return normalizeMovieAdditional(episode_id);
+			return normalizeMovieAdditional(movie.episode_id);
 		}
 		const movieData: ResponseMovieAdditional = await response.json();
-		return normalizeMovieAdditional(episode_id, movieData);
+		return normalizeMovieAdditional(movie.episode_id, movieData);
 	}
 };

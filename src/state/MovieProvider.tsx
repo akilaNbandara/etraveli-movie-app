@@ -32,11 +32,7 @@ export function MovieProvider({ children }: { children: ReactNode }) {
       const movies = await movieRepository.fetchMovies();
       setMovies(movies);
 
-			const additionalDataPromises = movies.map(movie =>
-				movieRepository.fetchAdditionalMovieData(movie.episode_id, movie.title)
-			);
-
-			const additionalData = await Promise.all(additionalDataPromises);
+			const additionalData = await Promise.all(movies.map(movieRepository.fetchAdditionalMovieData));
 			onAdditionalDataFetched(additionalData);
     } catch (err) {
       setError(err as Error);

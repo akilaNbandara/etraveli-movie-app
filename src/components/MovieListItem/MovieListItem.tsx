@@ -27,8 +27,6 @@ function MovieListItem({ movie }: { movie: MovieWithAdditionalData }) {
           <>
             <span>EPISODE {movie.episode_id}</span> <br />
             <span>
-              <strong>Director:</strong> {movie.director}
-              {' | '}
               <strong>Released:</strong> {movie.release_year}
             </span>
           </>

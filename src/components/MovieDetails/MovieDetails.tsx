@@ -1,7 +1,8 @@
-import { Container, Typography, Box, Chip, Rating } from '@mui/material';
+import { Container, Typography, Box, Chip, Rating, Card, CardMedia } from '@mui/material';
 import type { MovieWithAdditionalData } from '../../domain/Movie';
 import './MovieDetails.css';
 import { useMemo } from 'react';
+import placeholderPoster from '../../assets/no-poster.jpg';
 
 interface MovieDetailsProps {
   movie: MovieWithAdditionalData;
@@ -18,17 +19,41 @@ function MovieDetails({ movie }: MovieDetailsProps) {
         {movie.title}
       </Typography>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ 
+          mb: 2, 
+          display: "grid", 
+          gridTemplateColumns: { 
+            xs: '1fr',
+            sm: '1fr',
+            md: '200px 1fr'
+          },
+          gap: 2,
+          alignItems: 'start'
+        }}
+      >
+				<Card sx={{ width: '100%', maxWidth: 200 }}>
+					<CardMedia
+						component="img"
+						image={movie.poster_url || placeholderPoster}
+						alt={`${movie.title} Poster`}
+						onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+							e.currentTarget.src = placeholderPoster;
+						}}
+					/>
+				</Card>
 
-        <Typography
-          variant="body2"
-          sx={{ lineHeight: 1.75, textAlign: 'justify' }}
-        >
-          {movie.opening_crawl}
-        </Typography>
+				<Box>
+					<Typography
+						variant="body2"
+						sx={{ lineHeight: 1.75, textAlign: 'justify' }}
+					>
+						{movie.opening_crawl}
+					</Typography>
+				</Box>
       </Box>
 
-      <Box sx={{ mb: 2, display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+      <Box sx={{ mb: 2, display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr', md: '1fr 1fr' } }}>
         <Box
           sx={{
             mb: 1,

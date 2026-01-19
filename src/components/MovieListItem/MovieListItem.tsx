@@ -1,15 +1,20 @@
-import { ListItemButton, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemText, Rating } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
-import type { Movie } from '../../domain/Movie';
+import type { MovieWithAdditionalData } from '../../domain/Movie';
 import './MovieListItem.css';
+import { useMemo } from 'react';
 
-function MovieListItem({ movie }: { movie: Movie }) {
+function MovieListItem({ movie }: { movie: MovieWithAdditionalData }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = () => {
     searchParams.set('episode_id', movie.episode_id.toString());
     setSearchParams(searchParams);
   };
+
+	const ratingValue = useMemo(() => {
+		return movie.average_rating_percent ? movie.average_rating_percent / 20 : 0;
+	}, [movie]);
 
   return (
     <ListItemButton
@@ -29,6 +34,12 @@ function MovieListItem({ movie }: { movie: Movie }) {
           </>
         }
       />
+			<Rating
+				value={ratingValue}
+				readOnly max={5}
+				precision={0.25}
+				size="small"
+			/>
     </ListItemButton>
   );
 }

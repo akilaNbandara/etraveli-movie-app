@@ -1,5 +1,5 @@
 import type { MovieRepository } from './MovieRepository';
-import type { Movie } from './Movie';
+import type { AdditionalMovieData, Movie } from './Movie';
 
 interface ResponseMovie {
   episode_id: number;
@@ -7,6 +7,15 @@ interface ResponseMovie {
   director: string;
   release_date: string;
   opening_crawl: string;
+}
+
+type Rating = {
+	Source: string;
+	Value: string;
+};
+interface ResponseMovieAdditional {
+  Poster: string | undefined;
+  Ratings: Rating[] | undefined;
 }
 
 const normalizeMovie = (movieData: ResponseMovie): Movie => ({
@@ -18,6 +27,38 @@ const normalizeMovie = (movieData: ResponseMovie): Movie => ({
   opening_crawl: movieData.opening_crawl,
 });
 
+const getRatingPercent = (value: string): number | undefined => {
+	if (value.includes('%')) {
+		return parseInt(value.replace('%', ''), 10);
+	}
+	if (value.includes('/100')) {
+		return parseInt(value.replace('/100', ''), 10);
+	}
+	if (value.includes('/10')) {
+		return (parseFloat(value.replace('/10', '')) * 10);
+	}
+	return undefined;
+}
+
+const normalizeMovieAdditional = (episode_id: number, movieData?: ResponseMovieAdditional): AdditionalMovieData => {
+	const ratingsList = movieData?.Ratings?.map(rating => ({
+			source: rating.Source,
+			value_string: rating.Value,
+			value_percent: getRatingPercent(rating.Value)
+		}));
+	
+	const average_rating_percent = ratingsList && ratingsList?.length > 0
+		? Math.round(ratingsList.reduce((sum, r) => sum + (r.value_percent || 0), 0) / ratingsList.length)
+		: undefined;
+
+	return {
+		episode_id,
+		poster_url: movieData?.Poster,
+		ratings: ratingsList,
+		average_rating_percent
+	}
+};
+
 export const movieRepository: MovieRepository = {
   fetchMovies: async () => {
     const response = await fetch('https://swapi.info/api/films/');
@@ -27,4 +68,14 @@ export const movieRepository: MovieRepository = {
     const movies = await response.json();
     return movies.map(normalizeMovie);
   },
+
+	fetchAdditionalMovieData: async (episode_id: number, title: string): Promise<AdditionalMovieData> => {
+		// TODO: Replace 'b9a5e69d' with your actual OMDb API key
+		const response = await fetch(`http://www.omdbapi.com/?apikey=${'b9a5e69d'}&t=${title}`);
+		if (!response.ok) {
+			return normalizeMovieAdditional(episode_id);
+		}
+		const movieData: ResponseMovieAdditional = await response.json();
+		return normalizeMovieAdditional(episode_id, movieData);
+	}
 };

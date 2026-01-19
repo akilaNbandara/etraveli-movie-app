@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { ReactNode } from 'react';
 import { MovieContext } from './context';
-import type { Movie } from '../domain/Movie';
+import type { AdditionalMovieData, Movie } from '../domain/Movie';
 import type { SortOptions, SortOrder } from './MoviesStore';
 import { movieRepository } from '../domain/movie-repository';
 
@@ -13,18 +13,37 @@ export function MovieProvider({ children }: { children: ReactNode }) {
   const [sortBy, setSortBy] = useState<SortOptions>('release_year');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
+	const onAdditionalDataFetched = useCallback(async (data: AdditionalMovieData[]) => {
+		const dataMap = new Map<number, AdditionalMovieData>();
+		data.forEach(d => dataMap.set(d.episode_id, d));
+
+		setMovies((prevMovies) => {
+			return prevMovies.map((movie) => {
+				const additionalData = dataMap.get(movie.episode_id);
+				return additionalData ? { ...movie, ...additionalData } : movie;
+			});
+		});
+	}, []);
+
   const fetchMovies = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const movies = await movieRepository.fetchMovies();
       setMovies(movies);
+
+			const additionalDataPromises = movies.map(movie =>
+				movieRepository.fetchAdditionalMovieData(movie.episode_id, movie.title)
+			);
+
+			const additionalData = await Promise.all(additionalDataPromises);
+			onAdditionalDataFetched(additionalData);
     } catch (err) {
       setError(err as Error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [onAdditionalDataFetched]);
 
   return (
     <MovieContext.Provider

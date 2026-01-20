@@ -89,12 +89,12 @@ export const movieRepository: MovieRepository = {
       const response = await fetch(
         `http://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
       );
-      
+
       if (!response.ok) {
         console.error(`OMDb API returned status: ${response.status}`);
         return normalizeMovieAdditional(movie.episode_id);
       }
-      
+
       const movieData: ResponseMovieAdditional = await response.json();
       return normalizeMovieAdditional(movie.episode_id, movieData);
     } catch (error) {

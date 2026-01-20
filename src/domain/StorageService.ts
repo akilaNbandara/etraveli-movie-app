@@ -1,4 +1,4 @@
 export interface StorageService {
-	getItem<T>(key: string): T | null;
-	setItem<T>(key: string, value: T): void;
+  getItem<T>(key: string): T | null;
+  setItem<T>(key: string, value: T): void;
 }

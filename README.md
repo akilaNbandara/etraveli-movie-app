@@ -36,6 +36,7 @@ This application use jest for unit testing.
 ```bash
 npm test
 ```
+
 **Code quality:**
 
 In this project eslint and prettier use for maintain the code quality.

@@ -1,0 +1,27 @@
+.error-boundary {
+  /* min-height: 100vh; */
+  display: grid;
+  margin-top: 40vh; ;
+  place-items: center;
+  text-align: center;
+  row-gap: 15px;
+}
+
+.error-title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.error-subtitle {
+  font-size: 14px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.error-button {
+  padding: 1em 2em;
+  border-radius: 10px;
+  background: #ffe81f;
+  font-weight: 700;
+  cursor: pointer;
+}

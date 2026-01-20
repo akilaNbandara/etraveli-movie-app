@@ -1,7 +1,7 @@
 .error-boundary {
   /* min-height: 100vh; */
   display: grid;
-  margin-top: 40vh; ;
+  margin-top: 40vh;
   place-items: center;
   text-align: center;
   row-gap: 15px;

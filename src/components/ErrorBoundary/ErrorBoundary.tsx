@@ -31,8 +31,14 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="error-boundary">
           <div className="error-title">Something went wrong.</div>
-          <div className="error-subtitle">Please reload the page to continue.</div>
-          <button type="button" className="error-button" onClick={this.handleReload}>
+          <div className="error-subtitle">
+            Please reload the page to continue.
+          </div>
+          <button
+            type="button"
+            className="error-button"
+            onClick={this.handleReload}
+          >
             Reload page
           </button>
         </div>

@@ -6,16 +6,16 @@ import { MovieProvider } from './state';
 function App() {
   return (
     <BrowserRouter basename="/etraveli-movie-app">
-			<Routes>
-				<Route
-					path="/"
-					element={
-						<MovieProvider>
-							<MoviePage />
-						</MovieProvider>
-					}
-				/>
-			</Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <MovieProvider>
+              <MoviePage />
+            </MovieProvider>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

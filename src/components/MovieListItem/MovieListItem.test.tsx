@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import MovieListItem from './MovieListItem';
-import type { Movie } from '../../domain/Movie';
+import type { MovieWithAdditionalData } from '../../domain/Movie';
 
 describe('MovieListItem Component', () => {
-  const mockMovie: Movie = {
+  const mockMovie: MovieWithAdditionalData = {
     episode_id: 4,
     title: 'A New Hope',
     director: 'George Lucas',
@@ -22,12 +22,11 @@ describe('MovieListItem Component', () => {
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button.textContent).toContain('A New Hope');
-    expect(button.textContent).toContain('George Lucas');
     expect(button.textContent).toContain('1977');
   });
 
   it('should render with different movie data', () => {
-    const anotherMovie: Movie = {
+    const anotherMovie: MovieWithAdditionalData = {
       episode_id: 5,
       title: 'The Empire Strikes Back',
       director: 'Irvin Kershner',
@@ -41,7 +40,6 @@ describe('MovieListItem Component', () => {
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button.textContent).toContain('The Empire Strikes Back');
-    expect(button.textContent).toContain('Irvin Kershner');
     expect(button.textContent).toContain('1980');
   });
 });

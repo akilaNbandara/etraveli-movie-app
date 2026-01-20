@@ -4,6 +4,7 @@ import { useMovieState } from '../../state';
 import type { Movie } from '../../domain/Movie';
 
 jest.mock('../../state');
+jest.mock('../../domain/movie-repository');
 
 describe('useVisibleMovies', () => {
   const mockMovies: Movie[] = [

@@ -16,7 +16,7 @@ describe('MovieDetails Component', () => {
   it('should display all movie details together', () => {
     render(<MovieDetails movie={mockMovie} />);
 
-    const container = screen.getByText('A New Hope').closest('div');
+    const container = screen.getByText(/A New Hope/i).closest('div');
     expect(container?.textContent).toContain('A New Hope');
     expect(container?.textContent).toContain('George Lucas');
     expect(container?.textContent).toContain('1977');

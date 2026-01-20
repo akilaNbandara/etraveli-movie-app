@@ -1,16 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import './Loading.css';
-import { useEffect } from 'react';
 
 interface LoadingProps {
   message?: string;
 }
 
 function Loading({ message = 'Loading...' }: LoadingProps) {
-  useEffect(() => {
-    console.log('Loading component rendered with message:', message);
-  }, [message]);
   return (
     <Box className="loading-container">
       <Box className="loading-content">

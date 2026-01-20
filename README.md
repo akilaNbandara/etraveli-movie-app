@@ -8,6 +8,10 @@ Star Wars movie list application. Access the application on this URL[https://aki
 
 ## How to Run
 
+**Prepare environment**
+Make a copy of `.env.example`, rename it as `.env`.
+Update data with your data.
+
 1. **Install dependencies:**
 
    ```bash

@@ -10,8 +10,8 @@ Star Wars movie list application. Access the application on this URL[https://aki
 
 1. **Prepare environment:**
 
-	Make a copy of `.env.example`, rename it as `.env`.
-	Update content with your data.
+   Make a copy of `.env.example`, rename it as `.env`.
+   Update content with your data.
 
 2. **Install dependencies:**
 
@@ -39,7 +39,7 @@ This application use jest for unit testing.
 npm test
 ```
 
-**Code quality:**
+## Code quality
 
 In this project eslint and prettier use for maintain the code quality.
 
@@ -55,7 +55,7 @@ To format code
 npm run format
 ```
 
-**Build and Deploy:**
+## Build and Deploy
 
 This application currently deployed on the github-pages. The `gh-pages` library use to deploy the application.
 To deploy, push all the changes, then run,
@@ -89,7 +89,6 @@ Finally on the top, has the `component` layer, which has the UI logics and style
 - Improve UI/UX and Accessibility by adding keyboard navigation.
 
 - Use state management tool like redux
-
 
 ## My thoughts on assignment
 

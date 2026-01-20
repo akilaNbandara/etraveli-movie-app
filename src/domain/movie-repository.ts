@@ -87,7 +87,7 @@ export const movieRepository: MovieRepository = {
 
     try {
       const response = await fetch(
-        `http://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
+        `https://www.omdbapi.com/?apikey=${apiKey}&t=${movie.title}&y=${movie.release_year}`
       );
 
       if (!response.ok) {
